@@ -9,9 +9,9 @@ NDao が Dao の実装を提供します。
 
 ## Dao の例
 
-具体的にどのような事ができるのか見てみましょう。以下は RazorPages の例です。
+具体的にどのような事ができるのか見てみましょう。以下は RazorPages での例です。
 
-```cs
+```csharp
 // Pages/Samples.cshtml.cs
 
 public class SamplesModel : PageModel
@@ -40,13 +40,13 @@ public class SamplesModel : PageModel
 }
 ```
 
-```cs
+```csharp
 // Daos/IPersonDao.cs
 
 public interface IPersonDao
 {
-	// IPersonDao_Search.sql という名前のファイルを同じディレクトリに配置すると、
-	// 自動的に SQL ファイルの内容を実行するための実装クラスが生成されます。
+	// IPersonDao_Search.sql を同じディレクトリに配置すると、
+	// SQL ファイルの内容を実行するためのクラスが自動生成されます。
 	List<Person> Search(string? name, int? age);
 }
 ```
@@ -55,6 +55,7 @@ public interface IPersonDao
 -- Daos/IPersonDao_Search.sql
 
 -- コメントを使って SQL の中に C# のコードを埋め込む事ができます。
+-- if 文を使えば、動的な SQL も作成できます。
 -- 詳しくは後述します。
 
 select
@@ -86,5 +87,7 @@ NDao は以下のような特徴を持っています。
 
 ## 前提
 
-- net8.0 以降
+以下の環境で使用する事を前提とします。
+
+- .NET 8.0 以降
 - Visual Studio 2022 version 17.10 以降

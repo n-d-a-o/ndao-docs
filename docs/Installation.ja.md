@@ -1,33 +1,63 @@
 # インストール
 
-## パッケージ
+## NuGet パッケージのインストール
 
-以下のパッケージを使用します。
+現在、以下のパッケージを提供しています。
 
-| パッケージ | 説明 |
-|:---|:---|
-| NDao.Generator | Dao を生成します。 |
-| NDao | Dao を実行します。 |
-| Ndao.Database.(database) | 各データベース用に NDao を設定します。|
+| 名前                    | 説明                           |
+|:-----------------------|:-------------------------------|
+| NDao                   | Dao を実行します。(必須)           |
+| NDao.Generator         | Dao を生成します。(必須)           |
+| Ndao.Database.Sqlite   | SQLite 用に NDao を設定します。    |
+| Ndao.Database.Postgres | PostgreSQL 用に NDao を設定します。|
 
+必須のパッケージをインストールします。
 
+```powershell
+dotnet add package NDao
+dotnet add package NDao.Generator
+```
 
+データベースの種類に応じて、必要なパッケージをインストールします。
 
+```powershell
+dotnet add package NDao.Database.Sqlite
+```
 
+## コネクター定義
+
+`NDao.DaoConnector` を継承したクラスを作成します。
+`OnConfiguring` メソッドをオーバーライドして、接続文字列を設定します。
+
+```csharp
+// ExampleConnector.cs
+
+public class ExampleConnector : DaoConnector
+{
+	public override void OnConfiguring(DaoConnectorSettings settings)
+	{
+		settings.UseSqlite("Data Source=Example.db");
+		settings.LogWriter = message => Console.WriteLine(message);
+	}
+}
+```
 
 ## サービス登録
 
-`AddDefaultDaos<T>()` または `AddDaos<T>(group)` を使ってサービスを登録します。
+`IServiceCollection` の拡張メソッド `AddDaos` または `AddDefaultDaos` を使ってサービスを登録します。
 
-``` C#
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDefaultDaos<MyConnector>();
+```csharp
+// Program.cs
+
+public class Program
+{
+	public static void Main(string[] args)
+	{
+		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+		builder.Services.AddDefaultDaos<ExampleConnector>();
+		...
+	}
+}
 ```
 
-起動時に Dao インスタンスを生成し、初回の処理を高速化する事ができます。
-
-``` C#
-WebApplication app = builder.Build();
-app.Services.PreloadDefaultDaos<MyConnector>();
-```
 
