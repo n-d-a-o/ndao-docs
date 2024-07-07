@@ -4,12 +4,14 @@
 
 現在、以下のパッケージを提供しています。
 
-| 名前                    | 説明                           |
-|:-----------------------|:-------------------------------|
-| NDao                   | Dao を実行します。(必須)           |
-| NDao.Generator         | Dao を生成します。(必須)           |
-| Ndao.Database.Sqlite   | SQLite 用に NDao を設定します。    |
-| Ndao.Database.Postgres | PostgreSQL 用に NDao を設定します。|
+**NDao の NuGet パッケージ一覧**
+
+| パッケージ名 | 説明 |
+|:---|:---|
+| NDao | Dao を実行します。(必須) |
+| NDao.Generator | Dao を生成します。(必須) |
+| Ndao.Database.Sqlite | SQLite 用に NDao を設定します。 |
+| Ndao.Database.Postgres | PostgreSQL 用に NDao を設定します。 |
 
 必須のパッケージをインストールします。
 
@@ -23,6 +25,9 @@ dotnet add package NDao.Generator
 ```powershell
 dotnet add package NDao.Database.Sqlite
 ```
+
+(他のデータベース用のパッケージも追加する予定ですが、時期は未定です。
+また、設定をカスタマイズする事で自分で作成する事も一応可能です。)
 
 ## コネクター定義
 
@@ -63,7 +68,7 @@ public class Program
 
 `AddDaos` または `AddDefaultDaos` は、コネクターと Dao グループを紐づけます。
 Dao はどのグループに属するかという情報を持つので、コネクターと Dao が紐づきます。
-`AddDaos` と `AddDefaultDaos` の違いは、グループに名前があるかどうかだけです。
+`AddDaos` と `AddDefaultDaos` の違いは、紐づけるグループに名前があるかどうかだけです。
 
 複数のデータベースに接続する場合は、以下のようにサービスを登録します。
 
@@ -81,6 +86,8 @@ public class Program
 	}
 }
 ```
+
+また、Dao には以下のようにグループ名を指定します。
 
 ```csharp
 // Daos/Example2/IPersonDao.cs
