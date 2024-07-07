@@ -29,11 +29,8 @@ public class SamplesModel : PageModel
 
 	public IActionResult OnGet(string? name, int? age)
 	{
-		if (name is not null || age is not null)
-		{
-			// Dao を使って検索を実行する
-			Persons = personDao.Search(name, age);
-		}
+		// Dao を使って検索を実行する
+		Persons = personDao.Search(name, age);
 
 		return Page();
 	}

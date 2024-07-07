@@ -1,6 +1,6 @@
 # インストール
 
-## NuGet パッケージのインストール
+## NuGet パッケージ
 
 現在、以下のパッケージを提供しています。
 
@@ -37,7 +37,6 @@ public class ExampleConnector : DaoConnector
 	public override void OnConfiguring(DaoConnectorSettings settings)
 	{
 		settings.UseSqlite("Data Source=Example.db");
-		settings.LogWriter = message => Console.WriteLine(message);
 	}
 }
 ```
@@ -63,15 +62,10 @@ public class Program
 ```
 
 `AddDaos` または `AddDefaultDaos` は、コネクターと Dao グループを紐づけます。
-また、Dao はどのグループに属するかという情報を持つので、コネクターと Dao が紐づきます。
+Dao はどのグループに属するかという情報を持つので、コネクターと Dao が紐づきます。
 `AddDaos` と `AddDefaultDaos` の違いは、グループに名前があるかどうかだけです。
 
-```
-コネクター <---> Dao グループ <---> Dao
-```
-
 複数のデータベースに接続する場合は、以下のようにサービスを登録します。
-
 
 ```csharp
 // Program.cs
