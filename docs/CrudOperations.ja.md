@@ -88,7 +88,7 @@ public class Person
 }
 ```
 
-## エンティティの属性
+### エンティティの属性
 
 エンティティに関連する以下の属性が用意されています。
 
@@ -112,7 +112,7 @@ public class Person
 | Version | 行バージョン列 | NDao.Attributes |
 | Mask | ログ出力マスク | NDao.Attributes |
 
-## エンティティの命名規約
+### エンティティの命名規約
 
 テーブル名は以下の順で決まります。
 1. `Table` 属性で指定した名前
