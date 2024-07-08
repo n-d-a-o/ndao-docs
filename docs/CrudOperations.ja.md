@@ -96,7 +96,7 @@ public class Person
 
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
-| Entity | エンティティ | NDao.Attributes |
+| Entity | エンティティ宣言 | NDao.Attributes |
 | Table | 対応テーブル | System.ComponentModel.DataAnnotations.Schema |
 
 **エンティティのプロパティ属性一覧**
@@ -123,3 +123,21 @@ public class Person
 2. プロパティ名
 
 ただし、スネークケースにするかどうかなどのスタイルはコネクターの設定で指定します。
+
+### 楽観的同時実行制御
+
+`Version` 属性を付与すると、楽観的同時実行制御を利用する事ができます。
+古くなったデータを更新しようとすると `UpdateConcurrencyException` が発生します。
+4 つの方式があります。
+
+| 方式 | 型 | 説明 |
+|:---|:---|:---|
+| バージョン番号 | 整数 | 更新時に値を 1 加算します。最大値に達すると 0 に戻ります。(デフォルト) |
+| GUID | string | 更新時に GUID を設定します。 |
+| タイムスタンプ | string | 更新時に現在日時を設定します。 |
+| 手動 | 任意 | 自動で値を設定しません。 |
+
+```csharp
+[Version]
+public int Version { get; set; }
+```
