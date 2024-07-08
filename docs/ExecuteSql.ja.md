@@ -30,65 +30,131 @@ Dao インターフェースに関連する以下の属性が用意されてい�
 | SqlDataType | SQL データ型 (対応予定) | NDao.Attributes |
 | Mask | 非ログ出力 (対応予定) | NDao.Attributes |
 
-## リクエスト方式
+## Dao メソッド
 
-Dao メソッドには、データベースへのリクエスト方式(SQL 実行方式)を指定する事ができます。
-以下の 4 つのリクエスト方式があります。
+Dao メソッドには、以下の 4 つの SQL 実行方式があります。
+属性または規約によって決定されます。
 
 * Affect
+* Query
 * Single
 * SingleOrDefault
-* Query
 
 ### Affect
-影響行の数
-整数
 
-### Single
-単一行、例外
+非クエリの SQL を実行するための方式です。
+戻り値は、影響を与えた行の数です (`void` でない場合)。
+以下の場合、SQL 実行方式として `Affect` が選択されます。
 
-### SingleOrDefault
-単一行
-
-### Query
-List
-
-### リクエスト方式の決定方法
-
-1. 戻り値が List の場合、Query
-2. Affect 属性が付与されている場合、Affect
-3. Single 属性が付与されている場合、Single
-4. SingleOrDefault 属性が付与されている場合、SingleOrDefault
-5. 戻り値がない場合、Affect
-6. 戻り値が整数で、メソッド名が 次の名前で始まる場合、Affect
+* `Affect` 属性が付与されている
+* 戻り値の型が `void` である
+* 戻り値の型が整数、かつ、メソッド名が次の名前から始まる
   * Insert
   * Update
   * Delete
   * Add
   * Set
   * Remove
-7. 戻り値が nullable の場合、SingleOrDefault
-8. それ以外の場合、Single
+
+以下は、`Affect` が選択される例です。
+
+```csharp
+[Affect]
+int UpdateInactiveAccounts();
+```
+
+```csharp
+void UpdateInactiveAccounts();
+```
+
+```csharp
+int UpdateInactiveAccounts();
+```
+
+```csharp
+Task<int> UpdateInactiveAccounts();
+```
+
+### Query
+
+複数行を取得するための方式です。
+以下の場合、SQL 実行方式として `Query` が選択されます。
+
+* 戻り値の型が List である
+
+以下は、`Query` が選択される例です。
+
+```csharp
+List<Account> GetAccounts();
+```
+
+```csharp
+Task<List<Account>> GetAccounts();
+```
+
+### SingleOrDefault
+
+単一行を取得するための方式です。
+結果が複数件の場合、例外が発生します。
+また、結果が 0 件の場合、デフォルト値を戻り値とします。
+以下の場合、SQL 実行方式として `SingleOrDefault` が選択されます。
+
+* SingleOrDefault 属性が付与されている
+* 戻り値の型が nullable である
+
+以下は、`SingleOrDefault` が選択される例です。
+
+```csharp
+[SingleOrDefault]
+Account? GetAccountByEmail(string email);
+```
+
+```csharp
+Account? GetAccountByEmail(string email);
+```
+
+```csharp
+Task<Account?> GetAccountByEmail(string email);
+```
+
+### Single
+
+単一行を取得するための方式です。
+結果が複数件の場合、例外が発生します。
+また、結果が 0 件の場合、例外が発生します。
+以下の場合、SQL 実行方式として `Single` が選択されます。
+
+* Single 属性が付与されている
+* デフォルト
 
 ## Dao SQL
 
 ### Dao SQL の規約
 
-* ファイル名
-  * インターフェース名 _ メソッド名 . sql
-* パラメーター
-  * メソッド引数
-* クエリ結果
-  * メソッド戻り値
+Dao SQL は、以下の規約に従う必要があります。
+
+**Dao SQL の規約一覧**
+
+| 規約 | 名前 |
+|---|---|
+| ファイル名 | インターフェース名 _ メソッド名 . sql |
+| パラメーター名 | メソッド引数名 |
+| 結果フィールド名 | メソッド戻り値の型が複合型の場合、その型のプロパティ名<br>メソッド戻り値の型が単純型の場合、任意の名前 |
+
+```sql
+
+```
 
 ### NDao SQL 記法
 
-* コードコメント
-  * --#
-* パラメーターコメント
-  * /*@引数名*/
-* ディレクティブコメント
-  * --&
+Dao SQL では、以下のコメントを用いる事が可能です。
+
+| コメント名 | コメント |
+|---|---|
+| コードコメント | --# CSharp コード |
+| パラメーターコメント | /\* @メソッド引数名 \*/ |
+| ディレクティブコメント | --& ディレクティブ |
+
 
 ### コードコメント
 
