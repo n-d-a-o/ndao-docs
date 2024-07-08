@@ -41,6 +41,7 @@ Dao の定義を見てみましょう。
 ```csharp
 // Daos/IPersonDao.cs
 
+[Dao]
 public interface IPersonDao
 {
 	List<Person> Search(string? name, int? age);
