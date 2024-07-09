@@ -53,7 +53,7 @@ public interface IPersonDao
 
 /*
 特別なコメントを使って SQL の中に C# コードを埋め込む事ができます。
-if 文を使えば、動的な SQL も作成できます。
+if 文などを使えば、動的な SQL も作成できます。
 */
 
 select
