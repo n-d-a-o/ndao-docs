@@ -30,7 +30,9 @@ Dao インターフェースに関連する以下の属性が用意されてい�
 | Mask | 非ログ出力 (対応予定) | NDao.Attributes |
 
 
-## SQL 実行方式
+## Dao メソッド
+
+### SQL 実行方式
 
 Dao メソッドには、以下の 4 つの SQL 実行方式があります。
 属性または規約によって制御します。
@@ -136,8 +138,21 @@ DateTime GetCurrentTimestamp();
 Task<DateTime> GetCurrentTimestamp();
 ```
 
+### パラメーター (TODO)
+
+追加の型情報が必要な場合、`SqlDataType` 属性を使用します。
+
+
+### 戻り値
+
+戻り値の型のプロパティ名またはフィールド名は、クエリ結果のフィールド名と一致させる必要があります。
+
+
+
+NDao では、クエリ結果を格納する複合型のオブジェクトを Dto と呼びます。
 
 ## Dao SQL
+
 
 ### Dao SQL ファイル
 
@@ -146,6 +161,7 @@ Dao SQL は、以下のファイル名でなければなりません。
 ```sql
 インターフェース名_メソッド名.sql
 ```
+
 
 ### NDao SQL 記法
 
@@ -156,6 +172,7 @@ Dao SQL では、以下のコメントを用いる事が可能です。
 | コード コメント | --# コード |
 | ディレクティブ コメント | --& ディレクティブ |
 | パラメーター コメント | /\*@パラメーター\*/サンプル |
+
 
 ### コードコメント
 
@@ -175,6 +192,7 @@ Dao SQL では、以下のコメントを用いる事が可能です。
 	and name = /*@name*/
 --# }
 ```
+
 
 ### ディレクティブコメント
 
@@ -198,6 +216,7 @@ Dao SQL では、以下のコメントを用いる事が可能です。
 --# }
 ```
 
+
 ### パラメーターコメント
 
 パラメーターのプレースホルダーを記述します。
@@ -214,6 +233,7 @@ Dao SQL では、以下のコメントを用いる事が可能です。
 ```sql
 and name = /*@name*/'x'
 ```
+
 
 ### 2 Way SQL
 
@@ -235,14 +255,20 @@ and age = /*@age*/30
 and age = :age
 ```
 
+### クエリ結果
 
-## バインディング
+クエリ結果のフィールド名は、戻り値の型のプロパティ名またはフィールド名と一致させる必要があります。
 
-### パラメーターバインディング
+データベースオブジェクトの命名にスネークケースを採用している場合、命名に関する設定を変更する必要があります。
+なお、`NDao.Database.Postgres` では、デフォルトでスネークケースを使用するよう設定されています。
 
-### 結果バインディング
-
-SQL 結果のフィールド名は、戻り値の型のプロパティ名またはフィールド名と一致させる必要があります。
+```csharp
+[Dao]
+public interface IArticleDao
+{
+	Article? GetArticle(string id);
+}
+```
 
 ```csharp
 public class Article
@@ -255,14 +281,6 @@ public class Article
 }
 ```
 
-```csharp
-[Dao]
-public interface IArticleDao
-{
-	Article? GetArticle(string id);
-}
-```
-
 ```sql
 select
 	 Id
@@ -270,27 +288,21 @@ select
 	,Content
 from
 	Articles
-where
-	Id = /*@id*/'x'
-;
-```
+...
 
-```sql
--- "*" も使用可
+-- または
+
 select
 	 *
 from
 	Articles
-where
-	Id = /*@id*/'x'
-;
+...
 ```
 
 
-## Dto
+## Dto (TODO)
 
-TODO
-
+エンティティのプロパティを引き継ぐ。
 
 ## Dao 実装
 
