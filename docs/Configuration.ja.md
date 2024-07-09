@@ -1,8 +1,11 @@
 # 設定
 
+
+
+
 ## サービス
 
-起動時に Dao インスタンスを生成し、初回の処理を高速化する事ができます。
+Dao の初回使用時の処理を高速化したい場合、`PreloadDaos` と `PreloadDefaultDaos` で Dao インスタンスを事前に生成しておく事ができます。
 
 ```csharp
 WebApplication app = builder.Build();

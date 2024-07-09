@@ -1,5 +1,6 @@
 # インストール
 
+
 ## NuGet パッケージ
 
 現在、以下のパッケージを提供しています。
@@ -12,6 +13,12 @@
 | NDao.Generator | Dao を生成します。(必須) |
 | Ndao.Database.Sqlite | SQLite 用に NDao を設定します。 |
 | Ndao.Database.Postgres | PostgreSQL 用に NDao を設定します。 |
+
+(他のデータベース用のパッケージも追加する予定ですが、時期は未定です。
+また、設定をカスタマイズする事で自分で作成する事も一応可能です。)
+
+
+## NuGet パッケージのインストール
 
 必須のパッケージをインストールします。
 
@@ -26,8 +33,6 @@ dotnet add package NDao.Generator
 dotnet add package NDao.Database.Sqlite
 ```
 
-(他のデータベース用のパッケージも追加する予定ですが、時期は未定です。
-また、設定をカスタマイズする事で自分で作成する事も一応可能です。)
 
 ## コネクター定義
 
@@ -46,9 +51,20 @@ public class ExampleConnector : DaoConnector
 }
 ```
 
+
 ## サービス登録
 
 `IServiceCollection` の拡張メソッド `AddDaos` または `AddDefaultDaos` を使ってサービスを登録します。
+
+
+### AddDaos と AddDefaultDaos
+
+`AddDaos` と `AddDefaultDaos` は、コネクターと Dao を生成し、コネクターと Dao グループを紐づけます。
+Dao はどのグループに属しているかという情報を持っているので、コネクターと Dao が紐づきます。
+`AddDaos` と `AddDefaultDaos` の違いは、紐づけるグループに名前があるかどうかだけです。
+
+
+### 単一データベース
 
 単一のデータベースに接続する場合は、以下のようにサービスを登録します。
 
@@ -66,9 +82,8 @@ public class Program
 }
 ```
 
-`AddDaos` または `AddDefaultDaos` は、コネクターと Dao グループを紐づけます。
-Dao はどのグループに属するかという情報を持つので、コネクターと Dao が紐づきます。
-`AddDaos` と `AddDefaultDaos` の違いは、紐づけるグループに名前があるかどうかだけです。
+
+### 複数データベース
 
 複数のデータベースに接続する場合は、以下のようにサービスを登録します。
 

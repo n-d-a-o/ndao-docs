@@ -1,13 +1,14 @@
 # CRUD
 
+
 ## ICrudDao
 
-典型的な CRUD の SQL を書く必要はありません。
+典型的な CRUD 用の SQL を書く必要はありません。
 CRUD 用の Dao が予め用意されています。
-そのインターフェースである `NDao.Daos.ICrudDao<TEntity>` を通して、簡単に CRUD を実行する事ができます。
+そのインターフェースである `NDao.Daos.ICrudDao<TEntity>` を通して簡単に CRUD を実行する事ができます。
 
-テーブルに対応するクラスをエンティティと呼びます。
 型パラメーターにエンティティを指定する事で、どのテーブルに対する CRUD を実行するのかを指定します。
+エンティティとは、テーブルに対応するクラスのことです。
 
 `ICrudDao` には以下のメソッドが用意されています。
 
@@ -71,6 +72,7 @@ Person? person = personCrud.Get(id);
 person = personCrud.Delete(person);
 ```
 
+
 ## エンティティ
 
 クラスに `NDao.Attributes.Entity` 属性を付与するとエンティティとなります。
@@ -87,6 +89,7 @@ public class Person
 	public int Age { get; set; }
 }
 ```
+
 
 ### エンティティの属性
 
@@ -112,6 +115,7 @@ public class Person
 | Version | 行バージョン列 | NDao.Attributes |
 | Mask | ログ出力マスク | NDao.Attributes |
 
+
 ### エンティティの命名規約
 
 テーブル名は以下の順で決まります。
@@ -122,7 +126,9 @@ public class Person
 1. `Column` 属性で指定した名前
 2. プロパティ名
 
-ただし、スネークケースにするかどうかなどのスタイルはコネクターの設定で指定します。
+データベースオブジェクトの命名にスネークケースを採用している場合、命名に関する設定を変更する必要があります。
+なお、`NDao.Database.Postgres` では、デフォルトでスネークケースを使用するよう設定されています。
+
 
 ### 楽観的同時実行制御
 
@@ -133,11 +139,21 @@ public class Person
 | 方式 | 型 | 説明 |
 |:---|:---|:---|
 | バージョン番号 | 整数 | 更新時に値を 1 加算します。最大値に達すると 0 に戻ります。(デフォルト) |
-| GUID | string | 更新時に GUID を設定します。 |
 | タイムスタンプ | string | 更新時に現在日時を設定します。 |
+| GUID | string | 更新時に GUID を設定します。 |
 | 手動 | 任意 | 自動で値を設定しません。 |
 
 ```csharp
 [Version]
+public int Version { get; set; }
+```
+
+```csharp
+[Version(RowVersionStrategy.Time)]
+public int Version { get; set; }
+```
+
+```csharp
+[Version(RowVersionStrategy.Guid)]
 public int Version { get; set; }
 ```

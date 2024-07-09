@@ -1,5 +1,6 @@
 # SQL ファイル実行
 
+
 ## Dao インターフェース
 
 インターフェースに `NDao.Attributes.Dao` 属性を付与すると Dao を生成する事ができます。
@@ -13,6 +14,7 @@ public interface IAccountDao
 	Account? GetAccountByEmail(string email);
 }
 ```
+
 
 ### Dao インターフェースの属性
 
@@ -32,6 +34,7 @@ Dao インターフェースに関連する以下の属性が用意されてい�
 
 ## Dao メソッド
 
+
 ### SQL 実行方式
 
 Dao メソッドには、以下の 4 つの SQL 実行方式があります。
@@ -41,6 +44,7 @@ Dao メソッドには、以下の 4 つの SQL 実行方式があります。
 * Query
 * Single
 * SingleOrDefault
+
 
 ### Affect
 
@@ -71,6 +75,7 @@ int UpdateInactiveAccounts();
 Task<int> UpdateInactiveAccounts();
 ```
 
+
 ### Query
 
 複数行を取得するための方式です。
@@ -87,6 +92,7 @@ List<Account> GetAccounts();
 ```csharp
 Task<List<Account>> GetAccounts();
 ```
+
 
 ### SingleOrDefault
 
@@ -113,6 +119,7 @@ Account? GetAccountByEmail(string email);
 Task<Account?> GetAccountByEmail(string email);
 ```
 
+
 ### Single
 
 単一行を取得するための方式です。
@@ -138,6 +145,7 @@ DateTime GetCurrentTimestamp();
 Task<DateTime> GetCurrentTimestamp();
 ```
 
+
 ### パラメーター (TODO)
 
 追加の型情報が必要な場合、`SqlDataType` 属性を使用します。
@@ -146,10 +154,8 @@ Task<DateTime> GetCurrentTimestamp();
 ### 戻り値
 
 戻り値の型のプロパティ名またはフィールド名は、クエリ結果のフィールド名と一致させる必要があります。
-
-
-
 NDao では、クエリ結果を格納する複合型のオブジェクトを Dto と呼びます。
+
 
 ## Dao SQL
 
@@ -255,6 +261,7 @@ and age = /*@age*/30
 and age = :age
 ```
 
+
 ### クエリ結果
 
 クエリ結果のフィールド名は、戻り値の型のプロパティ名またはフィールド名と一致させる必要があります。
@@ -302,7 +309,6 @@ from
 
 ## Dto (TODO)
 
-エンティティのプロパティを引き継ぐ。
 
 ## Dao 実装
 
