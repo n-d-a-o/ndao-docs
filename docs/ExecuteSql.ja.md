@@ -2,16 +2,15 @@
 
 ## Dao インターフェース
 
-インターフェースに `NDao.Attributes.Dao` 属性を付与すると Dao インターフェースとなります。
-メソッドは SQL ファイルと紐づきます。
+インターフェースに `NDao.Attributes.Dao` 属性を付与すると Dao を生成する事ができます。
 
 ```csharp
-// Daos/IPersonDao.cs
+// Daos/IAccountDao.cs
 
 [Dao]
-public interface IPersonDao
+public interface IAccountDao
 {
-	Person? GetPersonByAccountId(long accountId);
+	Account? GetAccountByEmail(string email);
 }
 ```
 
@@ -19,7 +18,7 @@ public interface IPersonDao
 
 Dao インターフェースに関連する以下の属性が用意されています。
 
-**Dao インターフェースの属性一覧**
+**Dao インターフェースに関連する属性一覧**
 
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
@@ -29,6 +28,7 @@ Dao インターフェースに関連する以下の属性が用意されてい�
 | Single | 単一行取得リクエスト | NDao.Attributes |
 | SqlDataType | SQL データ型 (対応予定) | NDao.Attributes |
 | Mask | 非ログ出力 (対応予定) | NDao.Attributes |
+
 
 ## SQL 実行方式
 
@@ -43,7 +43,7 @@ Dao メソッドには、以下の 4 つの SQL 実行方式があります。
 ### Affect
 
 非クエリの SQL を実行するための方式です。
-戻り値がある場合、その値は影響を与えた行の数です。
+戻り値は、影響を与えた行の数です。(戻り値の型が int の場合)
 以下の場合、SQL 実行方式として Affect が選択されます。
 
 * `Affect` 属性が付与されている
@@ -136,11 +136,6 @@ DateTime GetCurrentTimestamp();
 Task<DateTime> GetCurrentTimestamp();
 ```
 
-## バインディング
-
-### パラメーターバインディング
-
-### 結果バインディング
 
 ## Dao SQL
 
@@ -240,9 +235,62 @@ and age = /*@age*/30
 and age = :age
 ```
 
+
+## バインディング
+
+### パラメーターバインディング
+
+### 結果バインディング
+
+SQL 結果のフィールド名は、戻り値の型のプロパティ名またはフィールド名と一致させる必要があります。
+
+```csharp
+public class Article
+{
+	public string Id { get; set; } = default!;
+
+	public string? Title { get; set; }
+
+	public string? Content { get; set; }
+}
+```
+
+```csharp
+[Dao]
+public interface IArticleDao
+{
+	Article? GetArticle(string id);
+}
+```
+
+```sql
+select
+	 Id
+	,Title
+	,Content
+from
+	Articles
+where
+	Id = /*@id*/'x'
+;
+```
+
+```sql
+-- "*" も使用可
+select
+	 *
+from
+	Articles
+where
+	Id = /*@id*/'x'
+;
+```
+
+
 ## Dto
 
 TODO
+
 
 ## Dao 実装
 
