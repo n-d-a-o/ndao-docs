@@ -40,13 +40,13 @@ dotnet add package NDao.Database.Sqlite
 `OnConfiguring` メソッドをオーバーライドして、接続文字列を設定します。
 
 ```csharp
-// ExampleConnector.cs
+// SampleConnector.cs
 
-public class ExampleConnector : DaoConnector
+public class SampleConnector : DaoConnector
 {
 	public override void OnConfiguring(DaoConnectorSettings settings)
 	{
-		settings.UseSqlite("Data Source=Example.db");
+		settings.UseSqlite("Data Source=Sample.db");
 	}
 }
 ```
@@ -76,7 +76,7 @@ public class Program
 	public static void Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-		builder.Services.AddDefaultDaos<ExampleConnector>();
+		builder.Services.AddDefaultDaos<SampleConnector>();
 		...
 	}
 }
@@ -95,8 +95,8 @@ public class Program
 	public static void Main(string[] args)
 	{
 		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-		builder.Services.AddDefaultDaos<Example1Connector>();
-		builder.Services.AddDaos<Example2Connector>("Example2");
+		builder.Services.AddDefaultDaos<Sample1Connector>();
+		builder.Services.AddDaos<Sample2Connector>("Sample2");
 		...
 	}
 }
@@ -105,19 +105,19 @@ public class Program
 また、Dao には以下のようにグループ名を指定します。
 
 ```csharp
-// Daos/Example2/IPersonDao.cs
+// Daos/Sample2/IPersonDao.cs
 
-// Example2Connector で接続する (Example2 Dao グループ)
-[Dao("Example2")]
+// Sample2Connector で接続する (Sample2 Dao グループ)
+[Dao("Sample2")]
 public interface IPersonDao
 {
 }
 ```
 
 ```csharp
-// Daos/Example1/IPersonDao.cs
+// Daos/Sample1/IPersonDao.cs
 
-// Example1Connector で接続する (デフォルト Dao グループ)
+// Sample1Connector で接続する (デフォルト Dao グループ)
 [Dao]
 public interface IPersonDao
 {
