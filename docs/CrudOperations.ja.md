@@ -16,10 +16,10 @@ CRUD 用の Dao が予め用意されています。
 
 | メソッド名 | 説明 |
 |:---|:---|
-| Get | エンティティを取得します。 |
-| Insert | エンティティを追加します。 |
-| Update | エンティティを更新します。 | 
-| Delete | エンティティを削除します。 |
+| Get | エンティティを取得する。 |
+| Insert | エンティティを追加する。 |
+| Update | エンティティを更新する。 | 
+| Delete | エンティティを削除する。 |
 
 さらに、それぞれ非同期用のメソッドが用意されています。
 
@@ -109,11 +109,11 @@ public class Person
 | Column | 対応列 | System.ComponentModel.DataAnnotations.Schema |
 | NotMapped | 非対応列 | System.ComponentModel.DataAnnotations.Schema |
 | MaxLength | 最大長 | System.ComponentModel.DataAnnotations |
-| SqlDataType | SQL データ型 | NDao.Attributes |
+| SqlDataType | SQL 用データ型 | NDao.Attributes |
 | Id | 主キー列 | NDao.Attributes |
 | Generated | データベース生成列 | NDao.Attributes |
 | Version | 行バージョン列 | NDao.Attributes |
-| Mask | ログ出力マスク | NDao.Attributes |
+| Mask | ログ出力保護 | NDao.Attributes |
 
 
 ### エンティティの命名規約
@@ -138,10 +138,10 @@ public class Person
 
 | 方式 | 型 | 説明 |
 |:---|:---|:---|
-| バージョン番号 | 整数 | 更新時に値を 1 加算します。最大値に達すると 0 に戻ります。(デフォルト) |
-| タイムスタンプ | string | 更新時に現在日時を設定します。 |
-| GUID | string | 更新時に GUID を設定します。 |
-| 手動 | 任意 | 自動で値を設定しません。 |
+| バージョン番号 | 整数 | 更新時に値を 1 加算する。最大値に達すると 0 に戻る。(デフォルト) |
+| タイムスタンプ | string | 更新時に現在日時を設定する。 |
+| GUID | string | 更新時に GUID を設定する。 |
+| 手動 | 任意 | 自動で値を設定しない。 |
 
 ```csharp
 [Version]

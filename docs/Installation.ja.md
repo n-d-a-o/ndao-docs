@@ -9,10 +9,10 @@
 
 | パッケージ名 | 説明 |
 |:---|:---|
-| NDao | Dao を実行します。(必須) |
-| NDao.Generator | Dao を生成します。(必須) |
-| Ndao.Database.Sqlite | SQLite 用に NDao を設定します。 |
-| Ndao.Database.Postgres | PostgreSQL 用に NDao を設定します。 |
+| NDao | Dao を実行する。(必須) |
+| NDao.Generator | Dao を生成する。(必須) |
+| Ndao.Database.Sqlite | SQLite 用に NDao を設定する。 |
+| Ndao.Database.Postgres | PostgreSQL 用に NDao を設定する。 |
 
 (他のデータベース用のパッケージも追加する予定ですが、時期は未定です。
 また、設定をカスタマイズする事で自分で作成する事も一応可能です。)

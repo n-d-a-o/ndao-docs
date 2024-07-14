@@ -25,11 +25,11 @@ Dao インターフェースに関連する以下の属性が用意されてい�
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Dao | Dao インターフェース宣言 | NDao.Attributes |
-| Affect | 変更リクエスト | NDao.Attributes |
-| SingleOrDefault | 単一行取得リクエスト | NDao.Attributes |
-| Single | 単一行取得リクエスト | NDao.Attributes |
-| SqlDataType | SQL データ型 (対応予定) | NDao.Attributes |
-| Mask | 非ログ出力 (対応予定) | NDao.Attributes |
+| Affect | 非クエリ実行 | NDao.Attributes |
+| SingleOrDefault | 単一行取得クエリ実行 | NDao.Attributes |
+| Single | 単一行取得クエリ実行 | NDao.Attributes |
+| SqlDataType | SQL 用データ型 (対応予定) | NDao.Attributes |
+| Mask | ログ出力保護 (対応予定) | NDao.Attributes |
 
 
 ## Dao メソッド
@@ -48,8 +48,8 @@ Dao メソッドには、以下の 4 つの SQL 実行方式があります。
 
 ### Affect
 
-非クエリの SQL を実行するための方式です。
-戻り値は、影響を与えた行の数です。(戻り値の型が int の場合)
+非クエリの SQL を実行する方式です。
+戻り値は、影響を与えた行の数です (戻り値の型が int の場合)。
 以下の場合、SQL 実行方式として Affect が選択されます。
 
 * `Affect` 属性が付与されている
@@ -78,7 +78,7 @@ Task<int> UpdateInactiveAccounts();
 
 ### Query
 
-複数行を取得するための方式です。
+複数行を取得する方式です。
 以下の場合、SQL 実行方式として Query が選択されます。
 
 * 戻り値の型が `List<T>` である
@@ -96,7 +96,7 @@ Task<List<Account>> GetAccounts();
 
 ### SingleOrDefault
 
-単一行を取得するための方式です。
+単一行を取得する方式です。
 該当データが複数ある場合、例外が発生します。
 また、該当データがない場合、デフォルト値が戻り値となります。
 以下の場合、SQL 実行方式として SingleOrDefault が選択されます。
@@ -122,7 +122,7 @@ Task<Account?> GetAccountByEmail(string email);
 
 ### Single
 
-単一行を取得するための方式です。
+単一行を取得する方式です。
 該当データが複数ある場合、例外が発生します。
 また、該当データがない場合、例外が発生します。
 以下の場合、SQL 実行方式として Single が選択されます。
@@ -210,7 +210,7 @@ Dao SQL では、以下のコメントを用いる事が可能です。
 
 | ディレクティブ | 書式 | 説明 |
 |---|---|---|
-| using | --& using 名前空間 | C# の `using` ディレクティブを生成します。 |
+| using | --& using 名前空間 | C# の `using` ディレクティブを生成する。 |
 
 以下はディレクティブコメントの例です。
 
