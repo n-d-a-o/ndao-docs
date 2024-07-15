@@ -45,8 +45,7 @@ public class SamplesModel : PageModel
 
 `ICrudDao` は下記のメソッドを持ちます。
 
-**ICrudDao メソッド**
-
+***ICrudDao メソッド***
 | メソッド名 | 説明 |
 |:---|:---|
 | GetList | エンティティリストを取得する。 |
@@ -140,15 +139,13 @@ public class Person
 
 エンティティに関連する下記の属性があります。
 
-**エンティティのクラス属性**
-
+***エンティティのクラス属性***
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Entity | エンティティ宣言 | NDao.Attributes |
 | Table | 対応テーブル | System.ComponentModel.DataAnnotations.Schema |
 
-**エンティティのプロパティ属性**
-
+***エンティティのプロパティ属性***
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Column | 対応列 | System.ComponentModel.DataAnnotations.Schema |
@@ -167,8 +164,7 @@ public class Person
 古くなったデータを更新しようとすると `UpdateConcurrencyException` が発生します。
 下記の 4 つの方式があります。
 
-**同時実行制御の方式**
-
+***同時実行制御の方式***
 | 方式 | 型 | 説明 |
 |:---|:---|:---|
 | 番号 | 整数 | 更新時に値を 1 加算する。最大値に達すると 0 に戻る。(デフォルト) |

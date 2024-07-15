@@ -7,7 +7,7 @@
 `DaoTransaction` は、コミットやロールバックを行い、その際にログ出力を行います。
 `DaoContext` は `DaoTransaction` を生成します。
 
-以下は RazorPages での例です。
+下記は RazorPages での例です。
 
 ```csharp
 // Pages/Samples.cshtml.cs
@@ -42,23 +42,21 @@ using (DaoTransaction transaction = context.BeginTransaction())
 }
 ```
 
-以下の手順でトランザクションを使用します。
+下記の手順でトランザクションを使用します。
 
 * `DaoContext` オブジェクトの `BeginTransaction` メソッドを呼び出し、 `DaoTransaction` オブジェクトを生成する
 * `DaoTransaction` オブジェクトを生成する事で、トランザクションを開始する
 * Dao メソッドに `DaoTransaction` オブジェクトを渡す
 * `DaoTransaction` オブジェクトの `Commit` メソッドを呼び出し、トランザクションを完了する
 
-`DaoTransaction` は、以下のメンバーを持っています。
+`DaoTransaction` は、下記のメンバーを持っています。
 
-**DaoTransaction プロパティ一覧**
-
+***DaoTransaction プロパティ***
 | プロパティ | 説明 |
 |:---|:---|
 | DbTransaction | `System.Data.Common.DbTransaction` オブジェクトを取得する。 |
 
-**DaoTransaction メソッド一覧**
-
+***DaoTransaction メソッド***
 | メソッド | 説明 |
 |:---|:---|
 | Commit | トランザクションをコミットする。 |
