@@ -10,7 +10,7 @@ CRUD 用の Dao が予め用意されています。
 型パラメーターにエンティティを指定する事で、どのテーブルに対する CRUD を実行するのかを指定します。
 エンティティとは、テーブルに対応するクラスのことです。
 
-単純な CRUD を実行するには、下記のように `ICrudDao` を使用します。
+下記のように使用します。
 
 ```csharp
 // Pages/Samples.cshtml.cs (RazorPages)
@@ -99,7 +99,7 @@ person = personCrud.Delete(person);
 クラスに `NDao.Attributes.Entity` 属性を付与するとエンティティとなります。
 データベースのテーブルに対応するように定義します。
 
-エンティティを定義するには、下記のように `Entity` 属性を使用します。
+下記のように定義します。
 
 ```csharp
 [Entity]
@@ -157,15 +157,15 @@ public class Person
 | SqlDataType | SQL 用データ型 | NDao.Attributes |
 | Id | 主キー列 | NDao.Attributes |
 | Generated | データベース生成列 | NDao.Attributes |
-| Version | 行バージョン列 | NDao.Attributes |
+| Version | バージョン列 | NDao.Attributes |
 | Mask | ログ出力保護 | NDao.Attributes |
 
 
-### 同時実行制御
+### バージョン列
 
-`Version` 属性を付与すると、同時実行制御をする事ができます。
+`Version` 属性を付与すると、バージョン列となり、同時実行制御をします。
 古くなったデータを更新しようとすると `UpdateConcurrencyException` が発生します。
-4 つの方式があります。
+下記の 4 つの方式があります。
 
 **同時実行制御の方式**
 
@@ -176,7 +176,7 @@ public class Person
 | GUID | string | 更新時に GUID を設定する。 |
 | 手動 | 任意 | 自動で値を設定しない。 |
 
-`Version` 属性は、下記のように使用します。
+下記のように定義します。
 
 ```csharp
 // 番号
