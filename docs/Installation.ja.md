@@ -3,9 +3,9 @@
 
 ## NuGet パッケージ
 
-現在、以下のパッケージを提供しています。
+NDao には下記のパッケージがあります。
 
-**NDao の NuGet パッケージ一覧**
+**NDao の NuGet パッケージ**
 
 | パッケージ名 | 説明 |
 |:---|:---|
@@ -59,14 +59,14 @@ public class SampleConnector : DaoConnector
 
 ### AddDaos と AddDefaultDaos
 
-`AddDaos` と `AddDefaultDaos` は、コネクターと Dao を生成し、コネクターと Dao グループを紐づけます。
-Dao はどのグループに属しているかという情報を持っているので、コネクターと Dao が紐づきます。
+`AddDaos` と `AddDefaultDaos` は、コネクターと Dao グループを紐づけます。
+Dao は属するグループの情報を持っているので、コネクターと Dao が紐づきます。
 `AddDaos` と `AddDefaultDaos` の違いは、紐づけるグループに名前があるかどうかだけです。
 
 
 ### 単一データベース
 
-単一のデータベースに接続する場合は、以下のようにサービスを登録します。
+単一のデータベースに接続する場合は、下記のようにサービスを登録します。
 
 ```csharp
 // Program.cs
@@ -85,7 +85,7 @@ public class Program
 
 ### 複数データベース
 
-複数のデータベースに接続する場合は、以下のようにサービスを登録します。
+複数のデータベースに接続する場合は、下記のようにサービスを登録します。
 
 ```csharp
 // Program.cs
@@ -102,23 +102,23 @@ public class Program
 }
 ```
 
-また、Dao には以下のようにグループ名を指定します。
+また、Dao には下記のようにグループ名を指定します。
 
 ```csharp
-// Daos/Sample2/IPersonDao.cs
+// Daos/Sample1/IPersonDao.cs
 
-// Sample2Connector で接続する (Sample2 Dao グループ)
-[Dao("Sample2")]
+// デフォルト Dao グループ = Sample1Connector で接続する
+[Dao]
 public interface IPersonDao
 {
 }
 ```
 
 ```csharp
-// Daos/Sample1/IPersonDao.cs
+// Daos/Sample2/IPersonDao.cs
 
-// Sample1Connector で接続する (デフォルト Dao グループ)
-[Dao]
+// Sample2 Dao グループ = Sample2Connector で接続する
+[Dao("Sample2")]
 public interface IPersonDao
 {
 }
