@@ -3,33 +3,24 @@
 
 ## ICrudDao
 
-典型的な CRUD 用の SQL を書く必要はありません。
+単純な CRUD のための SQL を書く必要はありません。
 CRUD 用の Dao が予め用意されています。
 そのインターフェースである `NDao.Daos.ICrudDao<TEntity>` を通して簡単に CRUD を実行する事ができます。
 
 型パラメーターにエンティティを指定する事で、どのテーブルに対する CRUD を実行するのかを指定します。
 エンティティとは、テーブルに対応するクラスのことです。
 
-`ICrudDao` には以下のメソッドが用意されています。
-
-**ICrudDao メソッド一覧**
-
-| メソッド名 | 説明 |
-|:---|:---|
-| Get | エンティティを取得する。 |
-| Insert | エンティティを追加する。 |
-| Update | エンティティを更新する。 | 
-| Delete | エンティティを削除する。 |
-
-さらに、それぞれ非同期用のメソッドが用意されています。
-
-使用例を見てみましょう。以下は RazorPages での例です。
+単純な CRUD を実行するには、下記のように `ICrudDao` を使用します。
 
 ```csharp
+// Pages/Samples.cshtml.cs (RazorPages)
+
 public class SamplesModel : PageModel
 {
 	// Dao インターフェース
 	private readonly ICrudDao<Person> personCrud;
+
+	public List<Person> Persons { get; private set; } = [];
 
     public SamplesModel(ICrudDao<Person> personCrud)
 	{
@@ -37,9 +28,39 @@ public class SamplesModel : PageModel
 		this.personCrud = personCrud;
 	}
 
+	public IActionResult OnGet()
+	{
+		// ICrudDao メソッドを呼び出す
+		Persons = personCrud.GetList();
+
+		return Page();
+	}
+
 	...
 }
 ```
+
+
+### ICrudDao メソッド
+
+`ICrudDao` は下記のメソッドを持ちます。
+
+**ICrudDao メソッド**
+
+| メソッド名 | 説明 |
+|:---|:---|
+| GetList | エンティティリストを取得する。 |
+| GetListAsync | エンティティリストを取得する。(非同期) |
+| Get | エンティティを取得する。 |
+| GetAsync | エンティティを取得する。(非同期) |
+| Insert | エンティティを追加する。 |
+| InsertAsync | エンティティを追加する。(非同期) |
+| Update | エンティティを更新する。 | 
+| UpdateAsync | エンティティを更新する。(非同期) | 
+| Delete | エンティティを削除する。 |
+| DeleteAsync | エンティティを削除する。(非同期) |
+
+下記のように使用します。
 
 ```csharp
 // 取得
@@ -78,6 +99,8 @@ person = personCrud.Delete(person);
 クラスに `NDao.Attributes.Entity` 属性を付与するとエンティティとなります。
 データベースのテーブルに対応するように定義します。
 
+エンティティを定義するには、下記のように `Entity` 属性を使用します。
+
 ```csharp
 [Entity]
 public class Person
@@ -91,18 +114,40 @@ public class Person
 ```
 
 
+### エンティティの命名規約
+
+#### クラス名
+
+対応するテーブル名は下記の順で決まります。
+
+1. `Table` 属性で指定した名前
+2. クラス名 + "s"
+
+#### プロパティ名
+
+対応する列名は下記の順で決まります。
+
+1. `Column` 属性で指定した名前
+2. プロパティ名
+
+#### スタイル
+
+データベースオブジェクトの命名にスネークケースを採用している場合、設定を変更する必要があります。
+`NDao.Database.Postgres` は、デフォルトでスネークケースを使用するよう設定されています。
+
+
 ### エンティティの属性
 
-エンティティに関連する以下の属性が用意されています。
+エンティティに関連する下記の属性があります。
 
-**エンティティのクラス属性一覧**
+**エンティティのクラス属性**
 
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Entity | エンティティ宣言 | NDao.Attributes |
 | Table | 対応テーブル | System.ComponentModel.DataAnnotations.Schema |
 
-**エンティティのプロパティ属性一覧**
+**エンティティのプロパティ属性**
 
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
@@ -116,44 +161,37 @@ public class Person
 | Mask | ログ出力保護 | NDao.Attributes |
 
 
-### エンティティの命名規約
+### 同時実行制御
 
-テーブル名は以下の順で決まります。
-1. `Table` 属性で指定した名前
-2. クラス名 + "s"
-
-列名は以下の順で決まります。
-1. `Column` 属性で指定した名前
-2. プロパティ名
-
-データベースオブジェクトの命名にスネークケースを採用している場合、命名に関する設定を変更する必要があります。
-なお、`NDao.Database.Postgres` では、デフォルトでスネークケースを使用するよう設定されています。
-
-
-### 楽観的同時実行制御
-
-`Version` 属性を付与すると、楽観的同時実行制御を利用する事ができます。
+`Version` 属性を付与すると、同時実行制御をする事ができます。
 古くなったデータを更新しようとすると `UpdateConcurrencyException` が発生します。
 4 つの方式があります。
 
+**同時実行制御の方式**
+
 | 方式 | 型 | 説明 |
 |:---|:---|:---|
-| バージョン番号 | 整数 | 更新時に値を 1 加算する。最大値に達すると 0 に戻る。(デフォルト) |
-| タイムスタンプ | string | 更新時に現在日時を設定する。 |
+| 番号 | 整数 | 更新時に値を 1 加算する。最大値に達すると 0 に戻る。(デフォルト) |
+| 日時 | string | 更新時に現在日時を設定する。 |
 | GUID | string | 更新時に GUID を設定する。 |
 | 手動 | 任意 | 自動で値を設定しない。 |
 
+`Version` 属性は、下記のように使用します。
+
 ```csharp
+// 番号
 [Version]
 public int Version { get; set; }
 ```
 
 ```csharp
+// 日時
 [Version(RowVersionStrategy.Time)]
 public int Version { get; set; }
 ```
 
 ```csharp
+// GUID
 [Version(RowVersionStrategy.Guid)]
 public int Version { get; set; }
 ```
