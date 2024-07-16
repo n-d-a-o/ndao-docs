@@ -11,7 +11,7 @@ CRUD 用の Dao が予め用意されています。
 下記のように使用します。
 
 ```csharp
-// Pages/Samples.cshtml.cs (RazorPages)
+// Pages/Samples.cshtml.cs
 
 public class SamplesModel : PageModel
 {

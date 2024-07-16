@@ -8,7 +8,7 @@ NDao は Dao (Data Access Object) を生成して実行するライブラリで�
 その実装を作成する必要はありません。
 NDao が Dao の実装を提供します。
 
-具体的にどのような事ができるのか見てみましょう。以下は RazorPages での例です。
+具体的にどのような事ができるのか見てみましょう。下記は RazorPages のページモデルです。
 
 ```csharp
 // Pages/Samples.cshtml.cs
@@ -18,7 +18,7 @@ public class SamplesModel : PageModel
 	// Dao インターフェース
 	private readonly IPersonDao personDao;
 
-	public List<Person> Persons { get; private set; } = [];
+	...
 
     public SamplesModel(IPersonDao personDao)
 	{
@@ -28,15 +28,17 @@ public class SamplesModel : PageModel
 
 	public IActionResult OnGet(string? name, int? age)
 	{
+		...
 		// Dao を使って検索を実行する
-		Persons = personDao.Search(name, age);
+		List<Person> persons = personDao.Search(name, age);
+		...
 
 		return Page();
 	}
 }
 ```
 
-DI で Dao インスタンスを受け取ってメソッドを呼び出し、SQL を実行しています。
+コンストラクターで Dao インスタンスを受け取り、ページハンドラーで Dao を使って SQL を実行しています。
 Dao の定義を見てみましょう。
 
 ```csharp
@@ -72,27 +74,29 @@ where
 ;
 ```
 
-`IPersonDao_Search.sql` を `IPersonDao.cs` と同じディレクトリに配置すると、SQL ファイルの内容を実行するための実装クラスが自動生成されます。
-そのため、DI で Dao インスタンスを受け取ってメソッドを呼び出すだけで、SQL を実行する事ができます。
+インターフェースと SQL ファイルがあるだけです。
+SQL ファイルを規約にしたがって配置すると、SQL を実行するための実装クラスが自動で生成されます。
+これによりインターフェースのメソッドを呼び出すだけで SQL を実行する事ができるわけです。
 要するに、SQL ファイルを関数として呼び出すようなものです。
 
 
 ## 特徴
 
-NDao は以下の特徴を持っています。
+NDao は下記の特徴を持っています。
 
-* SQL ファイルを簡単に実行する仕組みを提供する
+* SQL ファイルを簡単に実行する仕組みを提供
+* SQL ファイルに C# コードを埋め込む事が可能
 * 動的な SQL を作成する事が可能
 * 2 Way SQL を作成する事が可能
-* SQL のパラメーターやコードを実行時ではなくビルド時にエラー検出する事が可能
+* ビルド時に SQL 内の C# コードやパラメーターを簡易的にチェックする事が可能
 * CRUD 用の API を提供
 * SQL のロギングを提供
-* EF Core と併用する事が可能
+* EF Core のマイグレーション機能と併用する事が可能
 
 
 ## 前提
 
-以下の環境で使用する事を前提とします。
+下記の環境で使用する事を前提とします。
 
 * .NET 8.0 以降
 * Visual Studio 2022 version 17.10 以降
