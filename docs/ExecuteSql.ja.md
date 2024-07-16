@@ -163,10 +163,13 @@ Task<DateTime> GetCurrentTimestamp();
 
 Dao メソッドのパラメーターが、SQL のパラメーターとプレースホルダーになります。
 
-#### SQL 用データ型 (TODO)
+#### SQL 用データ型
 
-#### ログ出力保護 (TODO)
+(TODO)
 
+#### ログ出力保護
+
+(TODO)
 
 ### 戻り値
 
@@ -330,9 +333,11 @@ and age = :age
 ```
 
 
-## Dto (TODO)
+## Dto
 
 Dto は、クエリ結果を格納するオブジェクトです。
+
+(TODO)
 
 ## Dao 実装
 

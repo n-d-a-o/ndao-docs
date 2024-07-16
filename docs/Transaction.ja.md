@@ -25,11 +25,11 @@
 
 次の手順でトランザクションをコミットします。
 
-1. `DaoContext` オブジェクトの `BeginTransaction` メソッドを呼び出し、`DaoTransaction` オブジェクトを生成する。トランザクションが開始される。
+1. `DaoContext` オブジェクトの `BeginTransaction` メソッドを呼び出して `DaoTransaction` オブジェクトを生成し、トランザクションを開始する。
 2. Dao メソッドに `DaoTransaction` オブジェクトを渡す。
 3. `DaoTransaction` オブジェクトの `Commit` メソッドを呼び出し、トランザクションを完了する。
 
-下記のように使用します。
+下記のようにトランザクションを使用します。
 
 ```csharp
 // Pages/Samples.cshtml.cs
@@ -67,7 +67,7 @@ using (DaoTransaction transaction = context.BeginTransaction())
 
 ## Dao
 
-トランザクションを使用するには、Dao メソッドのパラメーターの末尾を `DaoTransaction` 型パラメーターにします。
+トランザクションに対応した Dao メソッドを定義するには、メソッドの末尾のパラメーターを `DaoTransaction` 型のパラメーターにします。
 
 下記のように定義します。
 
