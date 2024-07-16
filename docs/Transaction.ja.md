@@ -1,13 +1,35 @@
 # トランザクション
 
 
-### DaoTransaction
+## DaoTransaction
 
-トランザクションを制御するには `NDao.DaoTransaction` と `NDao.DaoContext<TConnector>` を使用します。
+トランザクションを制御するには `NDao.DaoTransaction` を使用します。
 `DaoTransaction` は、コミットやロールバックを行い、その際にログ出力を行います。
-`DaoContext` は `DaoTransaction` を生成します。
+また、`DaoTransaction` を生成するために `NDao.DaoContext<TConnector>` を使用します。
 
-下記は RazorPages での例です。
+***DaoTransaction プロパティ***
+| プロパティ | 説明 |
+|:---|:---|
+| DbTransaction | `System.Data.Common.DbTransaction` オブジェクトを取得する。 |
+
+***DaoTransaction メソッド***
+| メソッド | 説明 |
+|:---|:---|
+| Commit | トランザクションをコミットする。 |
+| CommitAsync | トランザクションをコミットする。(非同期) |
+| Rollback | トランザクションをロールバックする。 |
+| RollbackAsync | トランザクションをロールバックする。(非同期) |
+
+
+### トランザクションの開始と完了
+
+次の手順でトランザクションをコミットします。
+
+1. `DaoContext` オブジェクトの `BeginTransaction` メソッドを呼び出し、`DaoTransaction` オブジェクトを生成する。トランザクションが開始される。
+2. Dao メソッドに `DaoTransaction` オブジェクトを渡す。
+3. `DaoTransaction` オブジェクトの `Commit` メソッドを呼び出し、トランザクションを完了する。
+
+下記のように使用します。
 
 ```csharp
 // Pages/Samples.cshtml.cs
@@ -42,32 +64,12 @@ using (DaoTransaction transaction = context.BeginTransaction())
 }
 ```
 
-下記の手順でトランザクションを使用します。
 
-* `DaoContext` オブジェクトの `BeginTransaction` メソッドを呼び出し、 `DaoTransaction` オブジェクトを生成する
-* `DaoTransaction` オブジェクトを生成する事で、トランザクションを開始する
-* Dao メソッドに `DaoTransaction` オブジェクトを渡す
-* `DaoTransaction` オブジェクトの `Commit` メソッドを呼び出し、トランザクションを完了する
+## Dao
 
-`DaoTransaction` は、下記のメンバーを持っています。
+トランザクションを使用するには、Dao メソッドのパラメーターの末尾を `DaoTransaction` 型パラメーターにします。
 
-***DaoTransaction プロパティ***
-| プロパティ | 説明 |
-|:---|:---|
-| DbTransaction | `System.Data.Common.DbTransaction` オブジェクトを取得する。 |
-
-***DaoTransaction メソッド***
-| メソッド | 説明 |
-|:---|:---|
-| Commit | トランザクションをコミットする。 |
-| CommitAsync | トランザクションをコミットする。(非同期) |
-| Rollback | トランザクションをロールバックする。 |
-| RollbackAsync | トランザクションをロールバックする。(非同期) |
-
-
-### Dao
-
-トランザクションを使用するには、Dao メソッドの末尾のパラメーターを `DaoTransaction` にします。
+下記のように定義します。
 
 ```csharp
 [Dao]
