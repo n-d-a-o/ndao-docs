@@ -3,8 +3,8 @@
 
 ## Dao インターフェース
 
+Dao インターフェースと Dao SQL を作成すると、Dao 実装が自動生成されます。
 インターフェースに `NDao.Attributes.Dao` 属性を付与すると Dao インターフェースとなります。
-Dao インターフェースと Dao SQL を作成すると自動的に実装クラスが作成されます。
 
 下記のように定義します。
 
@@ -22,19 +22,19 @@ public interface IAccountDao
 
 Dao インターフェースに関連する下記の属性があります。
 
-***Dao インターフェースの属性***
+***Dao インターフェース属性***
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Dao | Dao インターフェース宣言 | NDao.Attributes |
 
-***Dao インターフェースのメソッド属性***
+***Dao メソッド属性***
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | Affect | 非クエリ実行 | NDao.Attributes |
 | SingleOrDefault | 単一行取得クエリ実行 | NDao.Attributes |
 | Single | 単一行取得クエリ実行 | NDao.Attributes |
 
-***Dao インターフェースのメソッドパラメーター属性***
+***Dao メソッドパラメーター属性***
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | SqlDataType | SQL 用データ型 (対応予定) | NDao.Attributes |
@@ -43,6 +43,9 @@ Dao インターフェースに関連する下記の属性があります。
 
 ## Dao メソッド
 
+Dao メソッドは、Dao SQL と一対一で紐づきます。
+SQL 実行方式を選択して、どのように SQL を実行して結果を得るのかを制御します。
+メソッドのパラメーターが SQL のパラメーターになり、SQLの結果がメソッドの戻り値になります。
 
 ### SQL 実行方式
 
@@ -65,7 +68,7 @@ Dao メソッドには、下記の 4 つの SQL 実行方式があります。
 * 戻り値の型が `void` である
 * 戻り値の型が `int`、かつ、メソッド名が `Insert`、`Update`、`Delete` から始まる
 
-Affect の Dao メソッドは、下記のように定義します。
+下記のように定義します。
 
 ```csharp
 [Affect]
@@ -92,7 +95,7 @@ Task<int> UpdateInactiveAccounts();
 
 * 戻り値の型が `List<T>` である
 
-Query の Dao メソッドは、下記のように定義します。
+下記のように定義します。
 
 ```csharp
 List<Account> GetAccounts();
@@ -113,7 +116,7 @@ Task<List<Account>> GetAccounts();
 * `SingleOrDefault` 属性が付与されている
 * 戻り値の型が `null` 許容である
 
-SingleOrDefault の Dao メソッドは、下記のように定義します。
+下記のように定義します。
 
 ```csharp
 [SingleOrDefault]
@@ -139,7 +142,7 @@ Task<Account?> GetAccountByEmail(string email);
 * `Single` 属性が付与されている
 * デフォルト
 
-Single の Dao メソッドは、下記のように定義します。
+下記のように定義します。
 
 ```csharp
 [Single]
@@ -161,7 +164,7 @@ Task<DateTime> GetCurrentTimestamp();
 * `Mask`
 
 
-### クエリ結果
+### 戻り値
 
 戻り値の型が複合型の場合、下記の 2 つの名前を一致させます。
 
@@ -180,6 +183,7 @@ public interface IArticleDao
 
 ```csharp
 // 戻り値の型のプロパティまたはフィールド = Id, Title, Content
+
 public class Article
 {
 	public string Id { get; set; } = default!;
@@ -191,12 +195,14 @@ public class Article
 ```
 
 ```sql
--- クエリ結果のフィールド = *, または, Id, Title, Content
+-- クエリ結果のフィールド = Id, Title, Content (または *)
+
 select
 	 Id
 	,Title
 	,Content
 from
+	Articles
 ...
 ```
 
@@ -209,13 +215,10 @@ from
 
 ## Dao SQL
 
+Dao SQL は、Dao インターフェースと同じディレクトリ内の SQL ファイルであり、次の名前を持ちます。
 
-### Dao SQL ファイル
-
-Dao SQL は、下記のファイル名でなければなりません。
-
-```sql
-インターフェース名_メソッド名.sql
+```
+[InterfaceName]_[MethodName].sql
 ```
 
 
