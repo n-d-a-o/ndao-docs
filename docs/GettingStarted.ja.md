@@ -20,7 +20,7 @@ public class SamplesModel : PageModel
 
 	...
 
-    public SamplesModel(IPersonDao personDao)
+	public SamplesModel(IPersonDao personDao)
 	{
 		// DI で Dao インスタンスを受け取る
 		this.personDao = personDao;
@@ -60,16 +60,16 @@ if 文などを使えば、動的な SQL も作成できます。
 */
 
 select
-   *
+	*
 from
-    persons
+	persons
 where
-    true = true
+	true = true
 --# if (@name is not null) {
-    and name like /*@name*/
+	and name like /*@name*/
 --# }
 --# if (@age is not null) {
-    and age = /*@age*/
+	and age = /*@age*/
 --# }
 ;
 ```
