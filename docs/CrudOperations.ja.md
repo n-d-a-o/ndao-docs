@@ -20,7 +20,7 @@ public class SamplesModel : PageModel
 
 	public List<Person> Persons { get; private set; } = [];
 
-    public SamplesModel(ICrudDao<Person> personCrud)
+	public SamplesModel(ICrudDao<Person> personCrud)
 	{
 		// DI で Dao インスタンスを受け取る
 		this.personCrud = personCrud;

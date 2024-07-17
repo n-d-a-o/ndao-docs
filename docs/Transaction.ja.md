@@ -40,7 +40,7 @@ public class SamplesModel : PageModel
 
 	...
 
-    public SamplesModel(DaoContext<SampleConnector> context, ...)
+	public SamplesModel(DaoContext<SampleConnector> context, ...)
 	{
 		// DI で DaoContext インスタンスを受け取る
 		this.context = context;
