@@ -100,14 +100,3 @@ NDao は下記の特徴を持っています。
 
 * .NET 8.0 以降
 * Visual Studio 2022 version 17.10 以降
-
-
-## ドキュメント
-
-* [はじめに](./GettingStarted.ja.md)
-* [インストール](./Installation.ja.md)
-* [CRUD](./CrudOperations.ja.md)
-* [SQL ファイル実行](./ExecuteSql.ja.md)
-* [トランザクション](./Transaction.ja.md)
-* [ロギング (TODO)](./Logging.ja.md)
-* [設定 (TODO)](./Configuration.ja.md)
