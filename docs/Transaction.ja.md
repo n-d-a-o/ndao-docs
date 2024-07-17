@@ -82,14 +82,3 @@ public interface ISampleDao
 	int UpdateY(string a, string b, DaoTransaction? c = null);
 }
 ```
-
-
-## ドキュメント
-
-* [はじめに](./GettingStarted.ja.md)
-* [インストール](./Installation.ja.md)
-* [CRUD](./CrudOperations.ja.md)
-* [SQL ファイル実行](./ExecuteSql.ja.md)
-* [トランザクション](./Transaction.ja.md)
-* [ロギング (TODO)](./Logging.ja.md)
-* [設定 (TODO)](./Configuration.ja.md)
