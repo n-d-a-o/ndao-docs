@@ -149,19 +149,34 @@ public class Person
 | NotMapped | 非対応列 | System.ComponentModel.DataAnnotations.Schema |
 | MaxLength | 最大長 | System.ComponentModel.DataAnnotations |
 | SqlDataType | SQL 用データ型 | NDao.Attributes |
-| Id | 主キー列 | NDao.Attributes |
-| Generated | データベース生成列 | NDao.Attributes |
-| Version | バージョン列 | NDao.Attributes |
-| Mask | ログ出力保護 | NDao.Attributes |
+| Id | 主キー | NDao.Attributes |
+| Generated | データベース生成値 | NDao.Attributes |
+| Version | 行バージョン | NDao.Attributes |
+| Mask | ログマスク | NDao.Attributes |
 
 
-### バージョン列
+### 型
+
+(TODO)
+
+
+### 主キー
+
+(TODO)
+
+
+### データベース生成値
+
+(TODO)
+
+
+### 行バージョン
 
 `Version` 属性が付与されたプロパティは、データの最新状態を管理するためのバージョン列に相当します。
 最新でないデータを更新しようとすると `UpdateConcurrencyException` が発生します。
 下記の 4 つの方式でバージョンを管理します。
 
-***バージョン列の値***
+***行バージョンの方式***
 | 方式 | 型 | 説明 |
 |:---|:---|:---|
 | バージョン番号 | 整数 | 更新時に値を 1 加算する。最大値に達すると 0 に戻る。(デフォルト) |
@@ -188,3 +203,8 @@ public int Version { get; set; }
 [Version(RowVersionStrategy.Guid)]
 public int Version { get; set; }
 ```
+
+
+### ログマスク
+
+(TODO)
