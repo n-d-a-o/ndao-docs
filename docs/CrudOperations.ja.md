@@ -15,26 +15,26 @@ CRUD 用の Dao が予め用意されています。
 
 public class SamplesModel : PageModel
 {
-	// Dao インターフェース
-	private readonly ICrudDao<Person> personCrud;
+    // Dao インターフェース
+    private readonly ICrudDao<Person> personCrud;
 
-	public List<Person> Persons { get; private set; } = [];
+    public List<Person> Persons { get; private set; } = [];
 
-	public SamplesModel(ICrudDao<Person> personCrud)
-	{
-		// DI で Dao インスタンスを受け取る
-		this.personCrud = personCrud;
-	}
+    public SamplesModel(ICrudDao<Person> personCrud)
+    {
+        // DI で Dao インスタンスを受け取る
+        this.personCrud = personCrud;
+    }
 
-	public IActionResult OnGet()
-	{
-		// ICrudDao メソッドを呼び出す
-		Persons = personCrud.GetList();
+    public IActionResult OnGet()
+    {
+        // ICrudDao メソッドを呼び出す
+        Persons = personCrud.GetList();
 
-		return Page();
-	}
+        return Page();
+    }
 
-	...
+    ...
 }
 ```
 
@@ -68,9 +68,9 @@ Person? person = personCrud.Get(id);
 // 追加
 Person person = new()
 {
-	Id = 1,
-	Name = "A",
-	Age = 25
+    Id = 1,
+    Name = "A",
+    Age = 25
 };
 person = personCrud.Insert(person);
 ```
@@ -101,11 +101,11 @@ person = personCrud.Delete(person);
 [Entity]
 public class Person
 {
-	public int Id { get; set; }
+    public int Id { get; set; }
 
-	public string Name { get; set; } = default!;
+    public string Name { get; set; } = default!;
 
-	public int Age { get; set; }
+    public int Age { get; set; }
 }
 ```
 

@@ -43,10 +43,10 @@ dotnet add package NDao.Database.Sqlite
 
 public class SampleConnector : DaoConnector
 {
-	public override void OnConfiguring(DaoConnectorSettings settings)
-	{
-		settings.UseSqlite("Data Source=Sample.db");
-	}
+    public override void OnConfiguring(DaoConnectorSettings settings)
+    {
+        settings.UseSqlite("Data Source=Sample.db");
+    }
 }
 ```
 
@@ -72,12 +72,12 @@ Dao は属するグループの情報を持っているので、コネクター�
 
 public class Program
 {
-	public static void Main(string[] args)
-	{
-		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-		builder.Services.AddDefaultDaos<SampleConnector>();
-		...
-	}
+    public static void Main(string[] args)
+    {
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddDefaultDaos<SampleConnector>();
+        ...
+    }
 }
 ```
 
@@ -91,13 +91,13 @@ public class Program
 
 public class Program
 {
-	public static void Main(string[] args)
-	{
-		WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-		builder.Services.AddDefaultDaos<Sample1Connector>();
-		builder.Services.AddDaos<Sample2Connector>("Sample2");
-		...
-	}
+    public static void Main(string[] args)
+    {
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddDefaultDaos<Sample1Connector>();
+        builder.Services.AddDaos<Sample2Connector>("Sample2");
+        ...
+    }
 }
 ```
 

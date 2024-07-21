@@ -15,26 +15,26 @@ NDao が Dao の実装を提供します。
 
 public class SamplesModel : PageModel
 {
-	// Dao インターフェース
-	private readonly IPersonDao personDao;
+    // Dao インターフェース
+    private readonly IPersonDao personDao;
 
-	...
+    ...
 
-	public SamplesModel(IPersonDao personDao)
-	{
-		// DI で Dao インスタンスを受け取る
-		this.personDao = personDao;
-	}
+    public SamplesModel(IPersonDao personDao)
+    {
+        // DI で Dao インスタンスを受け取る
+        this.personDao = personDao;
+    }
 
-	public IActionResult OnGet(string? name, int? age)
-	{
-		...
-		// Dao を使って検索を実行する
-		List<Person> persons = personDao.Search(name, age);
-		...
+    public IActionResult OnGet(string? name, int? age)
+    {
+        ...
+        // Dao を使って検索を実行する
+        List<Person> persons = personDao.Search(name, age);
+        ...
 
-		return Page();
-	}
+        return Page();
+    }
 }
 ```
 
@@ -47,7 +47,7 @@ Dao の定義を見てみましょう。
 [Dao]
 public interface IPersonDao
 {
-	List<Person> Search(string? name, int? age);
+    List<Person> Search(string? name, int? age);
 }
 ```
 
@@ -60,16 +60,16 @@ if 文などを使えば、動的な SQL も作成できます。
 */
 
 select
-	*
+    *
 from
-	persons
+    persons
 where
-	true = true
+    true = true
 --# if (@name is not null) {
-	and name like /*@name*/
+    and name like /*@name*/
 --# }
 --# if (@age is not null) {
-	and age = /*@age*/
+    and age = /*@age*/
 --# }
 ;
 ```
