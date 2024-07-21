@@ -36,18 +36,18 @@
 
 public class SamplesModel : PageModel
 {
-	private readonly DaoContext<SampleConnector> context;
+    private readonly DaoContext<SampleConnector> context;
 
-	...
+    ...
 
-	public SamplesModel(DaoContext<SampleConnector> context, ...)
-	{
-		// DI で DaoContext インスタンスを受け取る
-		this.context = context;
-		...
-	}
+    public SamplesModel(DaoContext<SampleConnector> context, ...)
+    {
+        // DI で DaoContext インスタンスを受け取る
+        this.context = context;
+        ...
+    }
 
-	...
+    ...
 }
 ```
 
@@ -55,12 +55,12 @@ public class SamplesModel : PageModel
 // トランザクションを開始する
 using (DaoTransaction transaction = context.BeginTransaction())
 {
-	// Dao メソッドにトランザクションを渡す
-	accountCrud.Insert(account, transaction);
-	signupCrud.Update(signup, transaction);
+    // Dao メソッドにトランザクションを渡す
+    accountCrud.Insert(account, transaction);
+    signupCrud.Update(signup, transaction);
 
-	// トランザクションを完了する
-	transaction.Commit();
+    // トランザクションを完了する
+    transaction.Commit();
 }
 ```
 
@@ -75,10 +75,10 @@ using (DaoTransaction transaction = context.BeginTransaction())
 [Dao]
 public interface ISampleDao
 {
-	// トランザクションは必須
-	int UpdateX(string a, string b, DaoTransaction c);
+    // トランザクションは必須
+    int UpdateX(string a, string b, DaoTransaction c);
 
-	// トランザクションはオプション
-	int UpdateY(string a, string b, DaoTransaction? c = null);
+    // トランザクションはオプション
+    int UpdateY(string a, string b, DaoTransaction? c = null);
 }
 ```

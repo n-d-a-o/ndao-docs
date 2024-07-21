@@ -15,7 +15,7 @@ Dao インターフェースは、`NDao.Attributes.Dao` 属性を付与された
 [Dao]
 public interface IAccountDao
 {
-	Account? GetAccountByEmail(string email);
+    Account? GetAccountByEmail(string email);
 }
 ```
 
@@ -39,7 +39,7 @@ Dao インターフェースに関連する下記の属性があります。
 | 属性名 | 属性 | 名前空間 |
 |:---|:---|:---|
 | SqlDataType | SQL 用データ型 (対応予定) | NDao.Attributes |
-| Mask | ログ出力保護 (対応予定) | NDao.Attributes |
+| Mask | ログマスク (対応予定) | NDao.Attributes |
 
 
 ## Dao メソッド
@@ -163,11 +163,11 @@ Task<DateTime> GetCurrentTimestamp();
 
 Dao メソッドのパラメーターが、SQL のパラメーターとプレースホルダーになります。
 
-#### SQL 用データ型
+#### パラメーターの型指定
 
 (TODO)
 
-#### ログ出力保護
+#### パラメーターのログ
 
 (TODO)
 
@@ -187,7 +187,7 @@ SQL の結果が、メソッドの戻り値になります。
 [Dao]
 public interface IArticleDao
 {
-	Article? GetArticle(string id);
+    Article? GetArticle(string id);
 }
 ```
 
@@ -196,11 +196,11 @@ public interface IArticleDao
 
 public class Article
 {
-	public string Id { get; set; } = default!;
+    public string Id { get; set; } = default!;
 
-	public string? Title { get; set; }
+    public string? Title { get; set; }
 
-	public string? Content { get; set; }
+    public string? Content { get; set; }
 }
 ```
 
@@ -208,11 +208,11 @@ public class Article
 -- クエリ結果のフィールド = Id, Title, Content (または *)
 
 select
-	 Id
-	,Title
-	,Content
+     Id
+    ,Title
+    ,Content
 from
-	Articles
+    Articles
 ...
 ```
 
@@ -225,11 +225,45 @@ from
 
 ## Dao SQL
 
-Dao SQL は、Dao インターフェースと同じディレクトリ内の SQL ファイルであり、次の名前を持ちます。
+Dao SQL は、規約に従って作成した特別な SQL ファイルであり、独自の記法を持ちます。
+
+
+### 規約
+
+Dao SQL は、下記の条件を全て満たす必要があります。
+
+* ディレクトリが、Dao インターフェースと同一のディレクトリである。
+* ファイル名が、`[Dao インターフェース名]_[Dao メソッド名].sql` である。
+* ビルドアクションが、`C# アナライザー追加ファイル` である。
+
+#### C# アナライザー追加ファイル
+
+Visual Studio のプロパティウィンドウで設定するか、プロジェクトファイルを編集して設定します。
+
+***プロパティウィンドウで設定する場合***
+
+プロパティウィンドウを開きます。
 
 ```
-[インターフェース名]_[メソッド名].sql
+ソリューションエクスプローラー --> (ファイル選択) --> プロパティ
 ```
+
+ドロップダウンリストを選択します。
+
+| プロパティ | 値 |
+|:---|:---|
+| ビルドアクション | C# アナライザー追加ファイル |
+
+***プロジェクトファイルを編集して設定する場合***
+
+`AdditionalFiles` 要素を追加します。
+
+```xml
+<ItemGroup>
+    <AdditionalFiles Include="Daos\IAccountDao_GetAccountByName.sql " />
+</ItemGroup>
+```
+
 
 
 ### NDao SQL 記法
@@ -256,19 +290,19 @@ Dao SQL では、下記のコメントを用いる事が可能です。
 
 ```sql
 --# if (@name is not null) {
-	and name = /*@name*/
+    and name = /*@name*/
 --# }
 ```
 
 ただし、通常のコードにない記法と制限があります。
 
-***記法***
 * `@パラメーター` は、メソッドのパラメーターを参照する。
-* `$.メソッド` は、ユーティリティメソッドを呼び出す。 (TODO)
-
-***制限***
+* `$.メソッド` は、ユーティリティ関数を呼び出す。
 * 変数を定義する場合、変数名は、`_` から始める。
 
+#### ユーティリティ関数
+
+(TODO)
 
 ### ディレクティブコメント
 
@@ -284,7 +318,7 @@ Dao SQL では、下記のコメントを用いる事が可能です。
 --& using MyLib.Utilites
 ...
 --# if (MyUtil.Func(@name)) {
-	and name = /*@name*/
+    and name = /*@name*/
 --# }
 ```
 
@@ -336,6 +370,9 @@ and age = :age
 ## Dto
 
 Dto は、クエリ結果を格納するオブジェクトです。
+Dto にはエンティティと簡易的な互換性を持たせる機能が用意されており、マイグレーション時の修正漏れを減らすのに役立ちます。
+
+### Inherit
 
 (TODO)
 
