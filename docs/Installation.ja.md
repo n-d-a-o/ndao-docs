@@ -53,17 +53,10 @@ public class SampleConnector : DaoConnector
 
 ## サービス登録
 
-`IServiceCollection` の拡張メソッド `AddDaos` または `AddDefaultDaos` を使ってサービスを登録します。
+`IServiceCollection` の拡張メソッド `AddDaos(string group)` または `AddDefaultDaos()` を使って必要なサービスを登録します。
 
 
-### AddDaos と AddDefaultDaos
-
-`AddDaos` と `AddDefaultDaos` は、コネクターと Dao グループを紐づけます。
-Dao は属するグループの情報を持っているので、コネクターと Dao が紐づきます。
-`AddDaos` と `AddDefaultDaos` の違いは、紐づけるグループに名前があるかどうかだけです。
-
-
-### 単一データベース
+### 単一のデータベースの場合
 
 単一のデータベースに接続する場合は、下記のようにサービスを登録します。
 
@@ -82,7 +75,7 @@ public class Program
 ```
 
 
-### 複数データベース
+### 複数のデータベースの場合
 
 複数のデータベースに接続する場合は、下記のようにサービスを登録します。
 
@@ -101,24 +94,37 @@ public class Program
 }
 ```
 
-また、Dao には下記のようにグループ名を指定します。
+また、Dao に対してグループを設定します。
+下記のように、`Dao` 属性でグループ名を指定します。
 
 ```csharp
-// Daos/Sample1/IPersonDao.cs
+// Daos/Sample1/ISample1PersonDao.cs
 
-// デフォルト Dao グループ = Sample1Connector で接続する
 [Dao]
-public interface IPersonDao
+public interface ISample1PersonDao
 {
 }
+
+// Dao グループ名 = なし (Sample1Connector で接続する)
 ```
 
 ```csharp
-// Daos/Sample2/IPersonDao.cs
+// Daos/Sample2/ISample2PersonDao.cs
 
-// Sample2 Dao グループ = Sample2Connector で接続する
 [Dao("Sample2")]
-public interface IPersonDao
+public interface ISample2PersonDao
 {
 }
+
+// Dao グループ名 = "Sample2" (Sample2Connector で接続する)
 ```
+
+
+### AddDaos と AddDefaultDaos
+
+`Dao` 属性は Dao と Dao グループを紐づけます。
+`AddDaos` と `AddDefaultDaos` は、Dao グループとコネクターを紐づけます。
+そのため、Dao はコネクターと紐づいて、接続情報を得る事ができます。
+
+`AddDaos` と `AddDefaultDaos` には、グループに名前を付けるかどうかの違いしかありません。
+`Dao` 属性でグループ名を指定しないグループ (デフォルトグループ) に対しては `AddDefaultDaos` を使い、その他のグループに対しては `AddDaos` を使います。
