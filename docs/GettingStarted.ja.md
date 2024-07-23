@@ -55,7 +55,7 @@ public interface IPersonDao
 -- Daos/IPersonDao_Search.sql
 
 /*
-特別なコメントを使って SQL の中に C# コードを埋め込む事ができます。
+特別なコメントを使って SQL の中に C# のコードを埋め込む事ができます。
 if 文などを使えば、動的な SQL も作成できます。
 */
 
